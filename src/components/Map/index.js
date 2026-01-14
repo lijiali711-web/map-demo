@@ -18,12 +18,30 @@ const NewMap = () => {
   });
  
   useEffect(() => {
-    mapDOM.current && initMap(); //加载地图
-    // 有覆盖物就进行删除
-  }, [mapDOM.current]);
+    console.log('Map组件useEffect触发，mapDOM.current:', mapDOM.current);
+    if (mapDOM.current) {
+      // 延迟一点时间确保DOM完全渲染
+      setTimeout(() => {
+        initMap();
+      }, 100);
+    }
+  }, []);
   
   //todo 加载地图
   const initMap = () => {
+    console.log('初始化地图，容器:', mapDOM.current);
+    console.log('BMapGL是否可用:', !!window.BMapGL);
+    
+    if (!window.BMapGL) {
+      console.error('百度地图API未加载');
+      return;
+    }
+    
+    if (!mapDOM.current) {
+      console.error('地图容器未找到');
+      return;
+    }
+    
     const map = new window.BMapGL.Map(mapDOM.current);
     map.centerAndZoom(new window.BMapGL.Point(116.004, 39.215), 5.5); // 初始化地图，设置中心点坐标和地图级别
     map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
@@ -32,6 +50,8 @@ const NewMap = () => {
     map.showOverlayContainer();
     //  todo 获取覆盖物列表
     mapRef.current = map;
+    
+    console.log('地图初始化完成:', map);
     let menu = new window.BMapGL.ContextMenu();
     //todo  右键菜单
     let txtMenuItem = [

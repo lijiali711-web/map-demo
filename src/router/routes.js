@@ -34,9 +34,9 @@ const routeMenus = [
                 path: 'index',
                 children: [
                     {
-                        label: '高德地图',
-                        key: 'gaode',
-                        path: 'gaode',
+                        label: '百度地图',
+                        key: 'baidu',
+                        path: 'baidu',
                     },
                 ],
             },

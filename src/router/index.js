@@ -11,7 +11,7 @@ const NotFound = lazy(() => import('@/pages/NotFound'));
 const Funnel = lazy(() => import('@/components/Funnel'));
 const Huan = lazy(() => import('@/pages/Huan'));
 const LineBar = lazy(() => import('@/pages/Chart'));
-const Gaode = lazy(() => import('@/components/Map'));
+const BaiDu = lazy(() => import('@/components/Map'));
 const Game = lazy(() => import('@/pages/game/index'));
 const Scatter = lazy(() => import('@/components/Scatter/index'));
 const Pie = lazy(() => import('@/components/PieCom/index'));
@@ -25,7 +25,7 @@ const leaf2Comp = {
     'line-bar': LineBar,
     'pie': Pie,
     scatter: Scatter,
-    gaode: Gaode,
+    baidu: BaiDu,
     'tic-tac-toe': Game,
     other: OtherPage, // 临时使用LineBar替代
 
