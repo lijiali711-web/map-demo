@@ -1,0 +1,13 @@
+.con{
+    margin: 100px auto;
+    width: 450px;
+    height: 300px;
+    background: #242833; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.con img{
+    width: 400px;
+    height: 150px;
+}

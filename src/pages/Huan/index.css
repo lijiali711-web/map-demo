@@ -1,0 +1,45 @@
+.rightBox {
+    width: 100%;
+    background-color: rgba(0, 255, 255, 0.276);
+}
+
+/* .rightBoxtop {
+    width: 100%;
+    height: 200px;
+    background-color: rgb(79, 186, 186);
+
+} */
+
+/* .rightBoxCenter {
+    width: 100%;
+    height: 200px;
+    background-color: rgb(68, 105, 105);
+} */
+
+/* .rightBoxBottom {
+    width: 100%;
+    height: 200px;
+    background-color: rgb(33, 58, 58);
+} */
+
+.container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.row {
+    display: flex;
+    padding: 10px;
+}
+
+.element {
+    flex: 0 0 auto;
+    width: 800px;
+    /* 设置每个元素的宽度 */
+    height: 100px;
+    /* 设置每个元素的高度 */
+    border: 1px solid #ccc;
+    /* 可选：设置元素边框样式 */
+    margin-right: 10px;
+    /* 可选：设置元素之间的间距 */
+}
