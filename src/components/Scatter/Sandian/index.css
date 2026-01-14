@@ -1,0 +1,55 @@
+.scrollable-legend {
+    width: 40%;
+    height: 70%;
+    min-width: 30%;
+    max-width: 60%;
+    max-height: 70%;
+    /* 设置最大高度 */
+    overflow-y: auto;
+    /* 启用垂直滚动 */
+    margin-top: 5px;
+    /* 与图表之间留一些空间 */
+    position: absolute;
+    top: 15%;
+    right: 5%;
+    z-index: 3;
+}
+
+.custom-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.legend-item {
+    cursor: pointer;
+    padding: 0.7vh 0.8vw;
+    margin: 0.5vh;
+    background-color: rgba(32, 59, 82, 0.5);
+    border-radius: 1vw;
+    /* width: 100%; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.color-legend {
+    display: inline-block;
+    width: 0.35vw;
+    height: 0.35vw;
+    border-radius: 50%;
+    background-color: red;
+}
+
+.legend-name {
+    font-size: 0.7vw;
+    flex: 2;
+    display: inline-block;
+    text-align: left;
+    padding: 0 10px;
+
+}
+
+.legend-value {
+    font-size: 0.7vw;
+}

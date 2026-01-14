@@ -9,6 +9,7 @@
     "antd": "^5.12.8",
     "bmap-draw": "^1.0.25",
     "echarts": "^5.4.3",
+    "echarts-stat": "^1.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^7.11.0",

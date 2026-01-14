@@ -13,6 +13,7 @@ const Huan = lazy(() => import('@/pages/Huan'));
 const LineBar = lazy(() => import('@/pages/Chart'));
 const Gaode = lazy(() => import('@/components/Map'));
 const Game = lazy(() => import('@/pages/game/index'));
+const Scatter = lazy(() => import('@/components/Scatter/index'));
 const Pie = lazy(() => import('@/components/PieCom/index'));
 const OtherPage = lazy(() => import('@/pages/OtherPage'));
 
@@ -23,9 +24,11 @@ const leaf2Comp = {
     huan: Huan,
     'line-bar': LineBar,
     'pie': Pie,
+    scatter: Scatter,
     gaode: Gaode,
     'tic-tac-toe': Game,
     other: OtherPage, // 临时使用LineBar替代
+
 };
 
 /* 递归把 menus 转成路由配置 */

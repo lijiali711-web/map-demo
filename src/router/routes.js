@@ -15,6 +15,7 @@ const routeMenus = [
                     { label: '漏斗图', key: 'funnel', path: 'funnel' },
                     { label: '折线柱状图', key: 'line-bar', path: 'line-bar' },
                     { label: '饼环图', key: 'pie', path: 'pie' },
+                    { label: '散点图', key: 'scatter', path: 'scatter' },
                     { label: '布局', key: 'huan', path: 'huan' },
                     { label: '其他', key: 'other', path: 'other' },
                 ],
