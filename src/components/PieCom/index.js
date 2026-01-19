@@ -1,7 +1,8 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import * as echarts from 'echarts';
 import ChartCom from '../chart';
 import { option } from './utils'
+import { ThemeContext } from '../../themes'
 
 /**
  * @desc 饼图
@@ -11,6 +12,7 @@ const Charts = props => {
    const { dataList } = props;
    const Chart = useRef(); // echart对象
    const ChartDOM = useRef(); // 放置在哪
+   const { theme } = useContext(ThemeContext);
 
    useEffect(() => {
       initCharts();
@@ -23,8 +25,22 @@ const Charts = props => {
    }, [dataList]);
 
    const initCharts = () => {
+      // 使用主题颜色初始化图表
+      const chartOption = {
+         ...option,
+         color: [
+            theme.primary,
+            theme.primaryLight,
+            theme.primaryDark,
+            '#73c0de',
+            '#73d13d',
+            '#ffa940',
+            '#f5222d'
+         ]
+      };
+      
       Chart.current = echarts.init(ChartDOM.current);
-      Chart.current.setOption(option);
+      Chart.current.setOption(chartOption);
    };
 
    return (

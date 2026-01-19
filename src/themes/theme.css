@@ -1,0 +1,222 @@
+/* 动态主题变量 */
+:root {
+  /* 默认主题变量 */
+  --theme-primary: #1890ff;
+  --theme-primary-dark: #096dd9;
+  --theme-primary-light: #40a9ff;
+  --theme-background: #ffffff;
+  --theme-surface: #f5f5f5;
+  --theme-text: #000000;
+  --theme-text-secondary: #666666;
+  --theme-border: #d9d9d9;
+  --theme-header-bg: #001529;
+  --theme-sider-bg: #ffffff;
+  --theme-content-bg: #ffffff;
+  --theme-card-bg: #ffffff;
+}
+
+/* 暗黑主题 */
+[data-theme="dark"] {
+  --theme-primary: #177ddc;
+  --theme-primary-dark: #3c9ae8;
+  --theme-primary-light: #0e4a8a;
+  --theme-background: #141414;
+  --theme-surface: #1f1f1f;
+  --theme-text: #ffffff;
+  --theme-text-secondary: #a6a6a6;
+  --theme-border: #434343;
+  --theme-header-bg: #001529;
+  --theme-sider-bg: #141414;
+  --theme-content-bg: #141414;
+  --theme-card-bg: #1f1f1f;
+}
+
+/* 浅蓝色主题 */
+[data-theme="lightBlue"] {
+  --theme-primary: #5cadff;
+  --theme-primary-dark: #4096ff;
+  --theme-primary-light: #85beff;
+  --theme-background: #f0f8ff;
+  --theme-surface: #e6f7ff;
+  --theme-text: #000000;
+  --theme-text-secondary: #595959;
+  --theme-border: #91d5ff;
+  --theme-header-bg: #e6f7ff;
+  --theme-sider-bg: #ffffff;
+  --theme-content-bg: #f0f8ff;
+  --theme-card-bg: #ffffff;
+}
+
+/* 绿色主题 */
+[data-theme="green"] {
+  --theme-primary: #52c41a;
+  --theme-primary-dark: #389e0d;
+  --theme-primary-light: #73d13d;
+  --theme-background: #f6ffed;
+  --theme-surface: #f0f9ff;
+  --theme-text: #000000;
+  --theme-text-secondary: #595959;
+  --theme-border: #b7eb8f;
+  --theme-header-bg: #276549;
+  --theme-sider-bg: #ffffff;
+  --theme-content-bg: #f6ffed;
+  --theme-card-bg: #ffffff;
+}
+
+/* 紫色主题 */
+[data-theme="purple"] {
+  --theme-primary: #722ed1;
+  --theme-primary-dark: #531dab;
+  --theme-primary-light: #9254de;
+  --theme-background: #f9f0ff;
+  --theme-surface: #f5f3ff;
+  --theme-text: #000000;
+  --theme-text-secondary: #595959;
+  --theme-border: #d3adf7;
+  --theme-header-bg: #391085;
+  --theme-sider-bg: #ffffff;
+  --theme-content-bg: #f9f0ff;
+  --theme-card-bg: #ffffff;
+}
+
+/* 应用主题变量 */
+body {
+  background-color: var(--theme-background);
+  color: var(--theme-text);
+  transition: all 0.3s ease;
+}
+
+/* 主布局容器 */
+.my-layout-container {
+  background-color: var(--theme-background);
+  min-height: 100vh;
+}
+
+/* 顶部导航栏 */
+.my-layout-container .ant-layout-header {
+  background-color: var(--theme-header-bg);
+  border-bottom: 1px solid var(--theme-border);
+}
+
+/* 左侧菜单 */
+.my-layout-container .ant-layout-sider {
+  background-color: var(--theme-sider-bg) !important;
+  border-right: 1px solid var(--theme-border);
+}
+
+/* 内容区域 */
+.my-layout-container .main-content {
+  background-color: var(--theme-content-bg);
+  border: 1px solid var(--theme-border);
+}
+
+/* 面包屑 */
+.my-layout-container .ant-breadcrumb {
+  color: var(--theme-text-secondary);
+}
+
+.my-layout-container .ant-breadcrumb a {
+  color: var(--theme-primary);
+}
+
+.my-layout-container .ant-breadcrumb a:hover {
+  color: var(--theme-primary-dark);
+}
+
+/* 菜单样式 */
+.my-layout-container .ant-menu {
+  background-color: var(--theme-sider-bg);
+  border-right: none;
+}
+
+.my-layout-container .ant-menu-item,
+.my-layout-container .ant-menu-submenu-title {
+  color: var(--theme-text);
+}
+
+.my-layout-container .ant-menu-item:hover,
+.my-layout-container .ant-menu-submenu-title:hover {
+  color: var(--theme-primary);
+  background-color: var(--theme-surface);
+}
+
+.my-layout-container .ant-menu-item-selected {
+  background-color: var(--theme-primary-light) !important;
+  color: var(--theme-primary-dark) !important;
+}
+
+.my-layout-container .ant-menu-submenu-open > .ant-menu-submenu-title {
+  color: var(--theme-primary);
+}
+
+/* 主题切换器按钮 */
+.ant-btn-theme-switcher {
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  border: 1px solid var(--theme-border);
+}
+
+.ant-btn-theme-switcher:hover {
+  background-color: var(--theme-surface);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-color: var(--theme-primary);
+}
+
+/* 下拉菜单主题 */
+.ant-dropdown-menu {
+  background-color: var(--theme-card-bg);
+  border: 1px solid var(--theme-border);
+}
+
+.ant-dropdown-menu-item {
+  color: var(--theme-text);
+}
+
+.ant-dropdown-menu-item:hover {
+  background-color: var(--theme-surface);
+  color: var(--theme-primary);
+}
+
+.ant-dropdown-menu-item-selected {
+  background-color: var(--theme-primary-light);
+  color: var(--theme-primary-dark);
+}
+
+/* 图表容器 */
+.chart-container {
+  background-color: var(--theme-card-bg);
+  border: 1px solid var(--theme-border);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+/* 地图容器 */
+.map-container {
+  border: 1px solid var(--theme-border);
+  border-radius: 8px;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--theme-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--theme-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-primary-light);
+}
+
+/* 动画效果 */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}

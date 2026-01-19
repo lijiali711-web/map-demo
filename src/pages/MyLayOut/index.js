@@ -1,11 +1,14 @@
-import React, { Fragment, useMemo, useState, useEffect } from 'react';
+import React, { Fragment, useMemo, useState, useEffect, useContext } from 'react';
 import { useNavigate, Outlet, useLocation } from 'react-router'
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import menus from '@/router/routes';
 import './index.less'
+import '../../themes/theme.css'
 import logoUrl from '@/assets/logo192.png'
 import { flatten } from '@/util'
+import { ThemeContext, themes } from '@/themes'
+import ThemeSwitcher from '@/components/ThemeSwitcher'
 
 
 const { Header, Content, Sider } = Layout;
@@ -17,6 +20,25 @@ const MyLayOut = () => {
     const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
     const navigate = useNavigate();
     const { pathname } = useLocation();
+    
+    // 主题状态管理
+    const [currentTheme, setCurrentTheme] = useState(() => {
+        const savedTheme = localStorage.getItem('theme') || 'default';
+        return savedTheme;
+    });
+    
+    const themeConfig = themes[currentTheme];
+    
+    // 应用主题到DOM
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        localStorage.setItem('theme', currentTheme);
+    }, [currentTheme]);
+    
+    // 主题切换函数
+    const setTheme = (themeName) => {
+        setCurrentTheme(themeName);
+    };
 
     /* 根据当前路径反查顶部激活的key */
     const topActiveKey = useMemo(() => {
@@ -181,30 +203,41 @@ const MyLayOut = () => {
     }
 
     return (
-        <Layout className='my-layout-container'>
-            {/* 顶部导航 */}
-            <Header style={{ display: 'flex', alignItems: 'center' }}>
-                <div className="demo-logo" >
-                    <img src={logoUrl} />
-                    <h3>testApp</h3>
-                </div>
-                <Menu
-                    theme="dark"
-                    mode="horizontal"
-                    selectedKeys={[topActiveKey]}
-                    items={menus.map((m) => ({ key: m.key, icon: m.icon, label: m.label }))}
-                    style={{ flex: 1, minWidth: 0 }}
-                    onClick={onClickTopMenu}
-                />
-            </Header>
+        <ThemeContext.Provider value={{ theme: themeConfig, themeName: currentTheme, setTheme }}>
+            <Layout className='my-layout-container'>
+                {/* 顶部导航 */}
+                <Header style={{ display: 'flex', alignItems: 'center', backgroundColor: themeConfig.headerBg }}>
+                    <div className="demo-logo" >
+                        <img src={logoUrl} />
+                        <h3 style={{ color: themeConfig.text }}>testApp</h3>
+                    </div>
+                    <Menu
+                        theme="light"
+                        mode="horizontal"
+                        selectedKeys={[topActiveKey]}
+                        items={menus.map((m) => ({ key: m.key, icon: m.icon, label: m.label }))}
+                        style={{ 
+                            flex: 1, 
+                            minWidth: 0,
+                            backgroundColor: 'transparent',
+                            borderBottom: 'none',
+                        }}
+                        onClick={onClickTopMenu}
+                    />
+                    <ThemeSwitcher />
+                </Header>
             <Layout>
                 {/* 左侧导航 */}
-                <Sider width={200} style={{ background: colorBgContainer }}>
+                <Sider width={200} style={{ backgroundColor: themeConfig.siderBg }}>
                     <Menu
                         mode="inline"
                         selectedKeys={[selectedKey]}
                         openKeys={openKeys}
-                        style={{ height: '100%', borderInlineEnd: 0 }}
+                        style={{ 
+                            height: '100%', 
+                            borderInlineEnd: 0,
+                            backgroundColor: themeConfig.siderBg,
+                        }}
                         onClick={handleMenuClick}
                         items={items2}
                     />
@@ -216,21 +249,23 @@ const MyLayOut = () => {
                         style={{ margin: '16px 0' }}
                     />
                     {/* 右侧内容展示区 */}
-                    <Content
+<Content
                         className='main-content'
                         style={{
                             padding: 24,
                             margin: 0,
                             minHeight: 280,
-                            background: colorBgContainer,
+                            background: themeConfig.contentBg,
                             borderRadius: borderRadiusLG,
+
                         }}
                     >
                         <Outlet />
                     </Content>
                 </Layout>
             </Layout>
-        </Layout>
+            </Layout>
+        </ThemeContext.Provider>
     );
 };
 export default MyLayOut;

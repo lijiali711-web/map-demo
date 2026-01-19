@@ -4,6 +4,7 @@ import { RouterProvider, BrowserRouter as Router } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import router from './router';
 import './index.css';
+import './themes/theme.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
