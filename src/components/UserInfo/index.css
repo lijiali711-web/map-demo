@@ -1,0 +1,79 @@
+.user-info-container {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar-btn {
+  border: 1px solid var(--theme-border);
+  background: var(--theme-surface);
+}
+
+.user-avatar-btn:hover {
+  background: var(--theme-primary-light);
+  border-color: var(--theme-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-info-modal .info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.user-info-modal .info-item:last-child {
+  border-bottom: none;
+}
+
+.user-info-modal .label {
+  font-weight: 500;
+  color: #666;
+  min-width: 80px;
+}
+
+.user-info-modal .value {
+  color: #333;
+  text-align: right;
+  flex: 1;
+}
+
+/* 下拉菜单样式 */
+.ant-dropdown-menu {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--theme-border);
+}
+
+.ant-dropdown-menu-item {
+  border-radius: 4px;
+  margin: 4px 8px;
+}
+
+.ant-dropdown-menu-item:hover {
+  background: var(--theme-surface);
+}
+
+.ant-dropdown-menu-item-danger:hover {
+  background: #fff2f0;
+  color: #ff4d4f;
+}
+
+/* 暗黑主题适配 */
+[data-theme="dark"] .user-info-modal .info-item {
+  border-bottom-color: #434343;
+}
+
+[data-theme="dark"] .user-info-modal .label {
+  color: #a6a6a6;
+}
+
+[data-theme="dark"] .user-info-modal .value {
+  color: #fff;
+}
+
+[data-theme="dark"] .ant-dropdown-menu-item-danger:hover {
+  background: #2a1215;
+  color: #ff7875;
+}

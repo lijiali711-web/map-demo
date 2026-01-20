@@ -9,32 +9,29 @@ import logoUrl from '@/assets/logo192.png'
 import { flatten } from '@/util'
 import { ThemeContext, themes } from '@/themes'
 import ThemeSwitcher from '@/components/ThemeSwitcher'
-
+import UserInfo from '@/components/UserInfo'
 
 const { Header, Content, Sider } = Layout;
-
-
-
 
 const MyLayOut = () => {
     const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
     const navigate = useNavigate();
     const { pathname } = useLocation();
-    
+
     // 主题状态管理
     const [currentTheme, setCurrentTheme] = useState(() => {
         const savedTheme = localStorage.getItem('theme') || 'default';
         return savedTheme;
     });
-    
+
     const themeConfig = themes[currentTheme];
-    
+
     // 应用主题到DOM
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', currentTheme);
         localStorage.setItem('theme', currentTheme);
     }, [currentTheme]);
-    
+
     // 主题切换函数
     const setTheme = (themeName) => {
         setCurrentTheme(themeName);
@@ -43,20 +40,19 @@ const MyLayOut = () => {
     /* 根据当前路径反查顶部激活的key */
     const topActiveKey = useMemo(() => {
         const pathSegments = pathname.split('/').filter(Boolean);
-        console.log('计算topActiveKey - 当前路径:', pathname, '路径段:', pathSegments);
-
         if (pathSegments.length > 0) {
             const firstSegment = pathSegments[0];
             const topMenu = menus.find(m => m.path === firstSegment);
-            console.log('第一段路径:', firstSegment, '找到的顶部菜单:', topMenu);
             return topMenu ? topMenu.key : menus[0].key;
         }
-        console.log('使用默认顶部菜单:', menus[0].key);
         return menus[0].key;
     }, [pathname]);
 
-    /* 防止刷新后 openKeys 丢失 和构建面包屑 */
-    const [openKeys, selectedKey, breadcrumbItems] = useMemo(() => {
+    /* 左侧菜单展开状态管理 */
+    const [openKeys, setOpenKeys] = useState([]);
+
+    /* 选中状态和面包屑 */
+    const [selectedKey, breadcrumbItems] = useMemo(() => {
         const flat = flatten(menus);
         const pathSegments = pathname.split('/').filter(Boolean);
 
@@ -90,7 +86,8 @@ const MyLayOut = () => {
             }
         }
 
-        console.log('目标叶子节点:', target, '展开的二级菜单:', sideMenuOpenKeys);
+        // 更新展开状态
+        setOpenKeys(sideMenuOpenKeys);
 
         if (!target) return [sideMenuOpenKeys, '', []];
 
@@ -100,94 +97,42 @@ const MyLayOut = () => {
             return menuItem ? { title: menuItem.label } : null;
         }).filter(Boolean) || [];
 
-        // 检查当前叶子节点是否已经在parentKeys中
-        const lastParentKey = target.parentKeys?.[target.parentKeys.length - 1];
-        if (target.label && lastParentKey !== target.key) {
-            // 如果当前叶子节点不在parentKeys中，才添加
+        // 添加当前页面
+        if (target.label) {
             breadcrumbs.push({ title: target.label });
         }
 
-        return [sideMenuOpenKeys, target.key, breadcrumbs];
+        return [target.key, breadcrumbs];
     }, [pathname, topActiveKey]);
+
+    // 当顶部菜单变化时，重置展开状态
+    useEffect(() => {
+        const currentTopMenu = menus.find(m => m.key === topActiveKey);
+        if (currentTopMenu && currentTopMenu.children && currentTopMenu.children.length > 0) {
+            setOpenKeys([currentTopMenu.children[0].key]);
+        } else {
+            setOpenKeys([]);
+        }
+    }, [topActiveKey]);
 
     /* 点击菜单直接跳转 */
     const handleMenuClick = (param) => {
         const { keyPath, key } = param
-        console.log(param, 'param-----111111');
 
         // 反转keyPath获取正确的层级顺序
         const reversedKeyPath = [...keyPath].reverse();
-        console.log('反转后的keyPath:', reversedKeyPath);
 
         // 根据key找到对应的path来构建路由
         const flat = flatten(menus);
-
-        // 特殊处理：需要找到完整的菜单层级来构建路径
-        let targetItem = flat.find(f => f.key === key);
-        console.log('目标菜单项:', targetItem);
-
-        if (targetItem && targetItem.parentKeys) {
-            // 构建完整路径：从顶级菜单到当前叶子节点
-            const pathSegments = [];
-
-            // 添加所有父级菜单的path（排除当前叶子节点）
-            const parentKeysWithoutCurrent = targetItem.parentKeys.filter(k => k !== key);
-            parentKeysWithoutCurrent.forEach(parentKey => {
-                const parentItem = flat.find(f => f.key === parentKey);
-                if (parentItem && parentItem.path) {
-                    pathSegments.push(parentItem.path);
-                }
-            });
-
-            // 添加当前叶子节点的path
-            if (targetItem.path) {
-                pathSegments.push(targetItem.path);
-            }
-
-            const finalRoutePath = pathSegments.join('/');
-            console.log('构建的完整路径:', '/' + finalRoutePath);
-            console.log('路径段:', pathSegments);
-
-            navigate('/' + finalRoutePath);
-        } else {
-            console.log('未找到目标菜单项或缺少parentKeys');
-        }
-    };
-    const items2 = useMemo(() => {
-        console.log('当前顶部菜单:', topActiveKey);
-        let sidArr = menus.find(menuItem => menuItem.key === topActiveKey)
-        console.log('找到的顶部菜单:', sidArr);
-
-        if (!sidArr || !sidArr.children) {
-            console.log('未找到菜单或子菜单:', topActiveKey);
-            return [];
-        }
-        let sideList = sidArr.children
-        console.log('侧边栏菜单列表:', sideList);
-
-        const menuItems = sideList.map((sideItm, sideIdx) => {
-            const menuItem = {
-                key: sideItm.key,
-                icon: sideItm.icon,
-                label: sideItm.label,
-            };
-
-            if (sideItm.children && sideItm.children.length > 0) {
-                menuItem.children = sideItm.children.map((childIte, childIdx) => {
-                    return {
-                        key: childIte.key,
-                        label: childIte.label,
-                    };
-                });
-                console.log(`菜单 ${sideItm.key} 的子菜单:`, menuItem.children);
-            }
-
-            return menuItem;
+        const routeSegments = reversedKeyPath.map(k => {
+            const item = flat.find(f => f.key === k);
+            return item ? item.path : k;
         });
 
-        console.log('最终构建的菜单项:', menuItems);
-        return menuItems;
-    }, [topActiveKey]);
+        const routePath = routeSegments.join('/');
+        navigate('/' + routePath);
+    };
+
     //点击顶部导航
     const onClickTopMenu = (e) => {
         const clickedMenu = menus.find(m => m.key === e.key);
@@ -201,6 +146,34 @@ const MyLayOut = () => {
             }
         }
     }
+
+    const items2 = useMemo(() => {
+        // 获取当前顶部菜单
+        const currentTopMenu = menus.find(menuItem => menuItem.key === topActiveKey);
+
+        if (!currentTopMenu || !currentTopMenu.children) {
+            return [];
+        }
+
+        // 构建左侧菜单（当前顶部菜单的二级菜单）
+        return currentTopMenu.children.map((secondLevelItem) => {
+            const menuItem = {
+                key: secondLevelItem.key,
+                icon: secondLevelItem.icon,
+                label: secondLevelItem.label,
+            };
+
+            // 如果有三级菜单（叶子节点）
+            if (secondLevelItem.children && secondLevelItem.children.length > 0) {
+                menuItem.children = secondLevelItem.children.map((leafItem) => ({
+                    key: leafItem.key,
+                    label: leafItem.label,
+                }));
+            }
+
+            return menuItem;
+        });
+    }, [topActiveKey]);
 
     return (
         <ThemeContext.Provider value={{ theme: themeConfig, themeName: currentTheme, setTheme }}>
@@ -216,56 +189,58 @@ const MyLayOut = () => {
                         mode="horizontal"
                         selectedKeys={[topActiveKey]}
                         items={menus.map((m) => ({ key: m.key, icon: m.icon, label: m.label }))}
-                        style={{ 
-                            flex: 1, 
+                        style={{
+                            flex: 1,
                             minWidth: 0,
                             backgroundColor: 'transparent',
                             borderBottom: 'none',
                         }}
                         onClick={onClickTopMenu}
                     />
-                    <ThemeSwitcher />
+                    <div className='theme-user' >
+                        <ThemeSwitcher />
+                        <UserInfo />
+                    </div>
                 </Header>
-            <Layout>
-                {/* 左侧导航 */}
-                <Sider width={200} style={{ backgroundColor: themeConfig.siderBg }}>
-                    <Menu
-                        mode="inline"
-                        selectedKeys={[selectedKey]}
-                        openKeys={openKeys}
-                        style={{ 
-                            height: '100%', 
-                            borderInlineEnd: 0,
-                            backgroundColor: themeConfig.siderBg,
-                        }}
-                        onClick={handleMenuClick}
-                        items={items2}
-                    />
-                </Sider>
-                <Layout style={{ padding: '0 24px 24px' }}>
-                    {/* 右侧顶部面包屑 */}
-                    <Breadcrumb
-                        items={breadcrumbItems.length > 0 ? breadcrumbItems : [{ title: 'Home' }]}
-                        style={{ margin: '16px 0' }}
-                    />
-                    {/* 右侧内容展示区 */}
-<Content
-                        className='main-content'
-                        style={{
-                            padding: 24,
-                            margin: 0,
-                            minHeight: 280,
-                            background: themeConfig.contentBg,
-                            borderRadius: borderRadiusLG,
-
-                        }}
-                    >
-                        <Outlet />
-                    </Content>
+                <Layout>
+                    {/* 左侧导航 */}
+                    <Sider width={200} style={{ backgroundColor: themeConfig.siderBg }}>
+                        <Menu
+                            mode="inline"
+                            selectedKeys={[selectedKey]}
+                            openKeys={openKeys}
+                            style={{
+                                height: '100%',
+                                borderInlineEnd: 0,
+                                backgroundColor: themeConfig.siderBg,
+                            }}
+                            onClick={handleMenuClick}
+                            items={items2}
+                        />
+                    </Sider>
+                    <Layout style={{ padding: '0 24px 24px' }}>
+                        {/* 右侧顶部面包屑 */}
+                        <Breadcrumb
+                            items={breadcrumbItems.length > 0 ? breadcrumbItems : [{ title: 'Home' }]}
+                            style={{ margin: '16px 0' }}
+                        />
+                        {/* 右侧内容展示区 */}
+                        <Content
+                            className='main-content'
+                            style={{
+                                padding: 24,
+                                margin: 0,
+                                minHeight: 280,
+                                background: themeConfig.contentBg,
+                                borderRadius: borderRadiusLG,
+                            }}
+                        >
+                            <Outlet />
+                        </Content>
+                    </Layout>
                 </Layout>
             </Layout>
-            </Layout>
         </ThemeContext.Provider>
-    );
+    )
 };
 export default MyLayOut;

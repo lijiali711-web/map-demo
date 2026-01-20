@@ -10,13 +10,13 @@ const ModalMap = ({ visible, closeMapModal, data }) => {
     // 有覆盖物就进行删除
   }, [mapDOM.current, overlays.current]);
 
- 
+
 
   useEffect(() => {
     if (!mapRef.current) return;
-    console.log(data)
-    overlays.current={...data}
-  }, [mapRef.current,data]);
+    // console.log(data)
+    overlays.current = { ...data }
+  }, [mapRef.current, data]);
   // 加载地图
   const initMap = () => {
     const map = new window.BMapGL.Map(mapDOM.current);
@@ -27,42 +27,42 @@ const ModalMap = ({ visible, closeMapModal, data }) => {
     map.showOverlayContainer();
     mapRef.current = map;
     var bounds = new window.BMapGL.Bounds();
-  //  todo 当前传递的数据
-  console.log(overlays.current);
-  overlays.current &&  overlays.current.features&&overlays.current.features.forEach(function (feature) {
-  
+    //  todo 当前传递的数据
+    // console.log(overlays.current);
+    overlays.current && overlays.current.features && overlays.current.features.forEach(function (feature) {
+
       if (feature.geometry.type === 'Polygon') { //多边
-          var path = feature.geometry.coordinates[0].map(function (coord) {
-              return new window.BMapGL.Point(coord[0], coord[1]);
-          });
-          var polygon = new window.BMapGL.Polygon(path, {strokeColor: "blue", fillColor: "blue", fillOpacity: 0.3});
-          map.addOverlay(polygon);
-          bounds.extend(polygon.getBounds().getSouthWest());
-          bounds.extend(polygon.getBounds().getNorthEast());
-      }  else if (feature.geometry.type === 'Point' && feature.properties.radius) { //圆
+        var path = feature.geometry.coordinates[0].map(function (coord) {
+          return new window.BMapGL.Point(coord[0], coord[1]);
+        });
+        var polygon = new window.BMapGL.Polygon(path, { strokeColor: "blue", fillColor: "blue", fillOpacity: 0.3 });
+        map.addOverlay(polygon);
+        bounds.extend(polygon.getBounds().getSouthWest());
+        bounds.extend(polygon.getBounds().getNorthEast());
+      } else if (feature.geometry.type === 'Point' && feature.properties.radius) { //圆
         var center = new window.BMapGL.Point(feature.geometry.coordinates[0], feature.geometry.coordinates[1]);
         var radius = feature.properties.radius;
-        var circle = new window.BMapGL.Circle(center, radius, {strokeColor: "red", fillColor: "red", fillOpacity: 0.3});
+        var circle = new window.BMapGL.Circle(center, radius, { strokeColor: "red", fillColor: "red", fillOpacity: 0.3 });
         map.addOverlay(circle);
         bounds.extend(circle.getBounds().getSouthWest());
         bounds.extend(circle.getBounds().getNorthEast());
-    }
+      }
 
 
-  });
+    });
     map.setViewport(bounds);
     map.enableScrollWheelZoom(true); //鼠标滚动缩放
   };
 
-     // todo 取消事件
+  // todo 取消事件
   const handleCancel = () => {
-    overlays.current={}
-     mapRef.current.clearOverlays(); // 清除地图上的覆盖物
+    overlays.current = {}
+    mapRef.current.clearOverlays(); // 清除地图上的覆盖物
     closeMapModal();
   };
 
-     // todo 保存事件
-  const handleSave = () => {};
+  // todo 保存事件
+  const handleSave = () => { };
 
   return (
     <Modal
@@ -88,7 +88,7 @@ const ModalMap = ({ visible, closeMapModal, data }) => {
         ref={mapDOM}
         style={{ width: "auto", height: 450 }}
       ></div>
-      
+
     </Modal>
   );
 };

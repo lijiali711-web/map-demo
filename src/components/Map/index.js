@@ -9,16 +9,16 @@ const NewMap = () => {
   const mapModalGeo = useRef({}); //todo 当前圈选geo文件
   //   todo 地图弹窗
   const [mapModalVisible, setMapModalVisible] = useState(false);
-  const [propsData,setPropsData]=useState({})
+  const [propsData, setPropsData] = useState({})
 
   //todo 定义最大的geo数据
   const [mergedGeoJSON, setMergedGeoJSON] = useState({
     type: "FeatureCollection",
     features: [],
   });
- 
+
   useEffect(() => {
-    console.log('Map组件useEffect触发，mapDOM.current:', mapDOM.current);
+    // console.log('Map组件useEffect触发，mapDOM.current:', mapDOM.current);
     if (mapDOM.current) {
       // 延迟一点时间确保DOM完全渲染
       setTimeout(() => {
@@ -26,22 +26,22 @@ const NewMap = () => {
       }, 100);
     }
   }, []);
-  
+
   //todo 加载地图
   const initMap = () => {
-    console.log('初始化地图，容器:', mapDOM.current);
-    console.log('BMapGL是否可用:', !!window.BMapGL);
-    
+    // console.log('初始化地图，容器:', mapDOM.current);
+    // console.log('BMapGL是否可用:', !!window.BMapGL);
+
     if (!window.BMapGL) {
       console.error('百度地图API未加载');
       return;
     }
-    
+
     if (!mapDOM.current) {
       console.error('地图容器未找到');
       return;
     }
-    
+
     const map = new window.BMapGL.Map(mapDOM.current);
     map.centerAndZoom(new window.BMapGL.Point(116.004, 39.215), 5.5); // 初始化地图，设置中心点坐标和地图级别
     map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
@@ -50,8 +50,8 @@ const NewMap = () => {
     map.showOverlayContainer();
     //  todo 获取覆盖物列表
     mapRef.current = map;
-    
-    console.log('地图初始化完成:', map);
+
+    // console.log('地图初始化完成:', map);
     let menu = new window.BMapGL.ContextMenu();
     //todo  右键菜单
     let txtMenuItem = [
@@ -85,7 +85,7 @@ const NewMap = () => {
               const name = window.prompt("请输入name值");
               pp.name = name;
               oldFilLayer.current.push(pp);
-            //  todo 删除编辑按钮
+              //  todo 删除编辑按钮
               menu.removeItem(newItem);
             },
             {
@@ -161,31 +161,31 @@ const NewMap = () => {
   };
   //   todo 点击保存按钮
   const save = () => {
-    if(mergedGeoJSON){
+    if (mergedGeoJSON) {
       heBing();
       setMapModalVisible(true);
 
     }
-   
+
     //   todo
-   
+
   };
-  
+
   // todo 关闭地图弹窗
   const closeMapModal = () => {
     setMergedGeoJSON({
       type: "FeatureCollection",
       features: [],
     })
-    oldFilLayer.current=[]
+    oldFilLayer.current = []
     setMapModalVisible(false);
-     mapRef.current.clearOverlays(); // 清除地图上的覆盖物
+    mapRef.current.clearOverlays(); // 清除地图上的覆盖物
   };
   // ! 数据合并
   const heBing = () => {
-    console.log(oldFilLayer.current, "ggggggggg");
+    // console.log(oldFilLayer.current, "ggggggggg");
     oldFilLayer.current.forEach(function (overlay) {
-      console.log(overlay);
+      // console.log(overlay);
       var feature = {
         type: "Feature",
         geometry: {
@@ -209,9 +209,9 @@ const NewMap = () => {
       }
       mergedGeoJSON.features.push(feature);
     });
-    console.log(mergedGeoJSON);
+    // console.log(mergedGeoJSON);
 
-    setMergedGeoJSON({...mergedGeoJSON})
+    setMergedGeoJSON({ ...mergedGeoJSON })
   };
 
   return (

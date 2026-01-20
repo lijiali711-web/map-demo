@@ -1,0 +1,216 @@
+.login-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.login-card .ant-card-head {
+  text-align: center;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.login-card .ant-card-head-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1890ff;
+}
+
+.login-card .ant-form-item-label > label {
+  font-weight: 500;
+  color: #666;
+}
+
+.captcha-box {
+  height: 40px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.captcha-box:hover {
+  border-color: #40a9ff;
+  background: #f0f8ff;
+  transform: scale(1.02);
+}
+
+.refresh-hint {
+  position: absolute;
+  bottom: -20px;
+  font-size: 12px;
+  color: #999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.captcha-box:hover .refresh-hint {
+  opacity: 1;
+}
+
+.login-tips {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f6f8fa;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.login-tips p {
+  margin: 4px 0;
+}
+
+.login-tips p:first-child {
+  font-weight: 600;
+  color: #1890ff;
+}
+
+/* 响应式设计 */
+@media (max-width: 576px) {
+  .login-container {
+    padding: 10px;
+  }
+  
+  .login-card {
+    max-width: 100%;
+  }
+}
+
+/* 主题适配 */
+[data-theme="dark"] .login-container {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+[data-theme="dark"] .login-card {
+  background: rgba(30, 30, 30, 0.95);
+  border: 1px solid #434343;
+}
+
+[data-theme="dark"] .login-card .ant-card-head {
+  border-bottom-color: #434343;
+}
+
+[data-theme="dark"] .login-card .ant-card-head-title {
+  color: #177ddc;
+}
+
+[data-theme="dark"] .login-card .ant-form-item-label > label {
+  color: #a6a6a6;
+}
+
+[data-theme="dark"] .captcha-box {
+  background: #262626;
+  border-color: #434343;
+  color: #fff;
+}
+
+[data-theme="dark"] .captcha-box:hover {
+  border-color: #177ddc;
+  background: #1f1f1f;
+}
+
+[data-theme="dark"] .login-tips {
+  background: #1f1f1f;
+  color: #a6a6a6;
+}
+
+[data-theme="dark"] .login-tips p:first-child {
+  color: #177ddc;
+}
+
+/* 快速登录区域 */
+.quick-login-section {
+  margin: 20px 0;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  color: #999;
+  font-size: 14px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e8e8e8;
+}
+
+.divider span {
+  padding: 0 16px;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.quick-login-btn {
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.quick-login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.admin-btn {
+  background: linear-gradient(135deg, #1890ff, #096dd9);
+  color: white;
+  border-color: #1890ff;
+}
+
+.admin-btn:hover {
+  background: linear-gradient(135deg, #40a9ff, #1890ff);
+  border-color: #40a9ff;
+}
+
+.guest-btn {
+  background: linear-gradient(135deg, #52c41a, #389e0d);
+  color: white;
+  border-color: #52c41a;
+}
+
+.guest-btn:hover {
+  background: linear-gradient(135deg, #73d13d, #52c41a);
+  border-color: #73d13d;
+}
+
+/* 暗黑主题适配 */
+[data-theme="dark"] .divider span {
+  background: rgba(30, 30, 30, 0.95);
+}
+
+[data-theme="dark"] .quick-login-btn {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .quick-login-btn:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
